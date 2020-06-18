@@ -17,17 +17,36 @@ ButtonController buttonController(mqttConnection);
 void setup()
 {
   Serial.begin(115200);
-  // pinMode(D9, FUNCTION_3);
-  pinMode(PIN_LED1, OUTPUT);
+
 
   buttonController.setup();
-  buttonController.readButtons();
+  buttonController.readForShortPress();
 
+  // TODO: Use LedController
+  pinMode(PIN_LED1, OUTPUT);
   digitalWrite(PIN_LED1, HIGH);
-  
-  wifiConnection.connect(); // TODO: Handle return value
-  mqttConnection.connect(); // TODO: Handle return value
 
+  Debugger::info("");
+  
+  if(wifiConnection.connect())
+  {
+    Debugger::info("Wifi connected. IP: " + WiFi.localIP().toString());
+  }
+  else
+  {
+    Debugger::info("Wifi NOT connected");
+  }
+
+  if(mqttConnection.connect())
+  {
+    Debugger::info("MQTT connected");
+  }
+  else
+  {
+    Debugger::info("MQTT NOT connected");
+  }
+
+  buttonController.readForLongPress();
   buttonController.publishValues();
 
   Debugger::info("All done. Going to sleep.");
@@ -38,5 +57,4 @@ void setup()
 
 void loop()
 {
-  // ledController.loop();
 }

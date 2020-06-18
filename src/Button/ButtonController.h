@@ -9,11 +9,12 @@ class ButtonController
   public:
     ButtonController(MqttConnection mqttConnection);
     void setup();
-    void readButtons();
+    void readForShortPress();
+    void readForLongPress();
     void publishValues();
   private:
     MqttConnection _mqttConnection;
-    void readValue(Button& button);
+    bool readValue(Button& button);
 };
 
 #endif

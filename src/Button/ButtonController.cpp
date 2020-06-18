@@ -4,13 +4,6 @@
 #include <Button/ButtonController.h>
 #include <Button/Button.h>
 
-// Button buttons[5] = {
-//     Button(PIN_BUTTON1_INPUT, button1),
-//     Button(PIN_BUTTON2_INPUT, button2),
-//     Button(PIN_BUTTON3_INPUT, button3),
-//     Button(PIN_BUTTON4_INPUT, button4),
-//     Button(PIN_BUTTON5_INPUT, button5)};
-
 Button buttons[4] = {
     Button(PIN_BUTTON1_INPUT, "Button1"),
     Button(PIN_BUTTON2_INPUT, "Button2"),
@@ -30,11 +23,19 @@ void ButtonController::setup()
     }
 }
 
-void ButtonController::readButtons()
+void ButtonController::readForShortPress()
 {
     for (auto &&button : buttons)
     {
-        readValue(button);
+        button.shortPress = readValue(button);
+    }
+}
+
+void ButtonController::readForLongPress()
+{
+    for (auto &&button : buttons)
+    {
+        button.longPress = readValue(button);
     }
 }
 
@@ -42,14 +43,22 @@ void ButtonController::publishValues()
 {
     for (auto &&button : buttons)
     {
-        if(button.value == 1) {
-            Debugger::info("Button pressed: " + String(button.pin));
-           _mqttConnection.publish(MQTT_BASE_TOPIC + button.id, "true");
+        if(button.longPress) 
+        {
+            Debugger::info("Short press: " + String(button.pin));
+           _mqttConnection.publish(MQTT_BASE_TOPIC + button.id + "/long", "true");
+        } 
+        else if(button.shortPress) 
+        {
+            Debugger::info("Short press: " + String(button.pin));
+           _mqttConnection.publish(MQTT_BASE_TOPIC + button.id + "/short", "true");
         }
     }
+
+    delay(5); // Add short delay, to ensure the values are really published
 }
 
-void ButtonController::readValue(Button& button)
+bool ButtonController::readValue(Button& button)
 {
-    button.value = digitalRead(button.pin);
+    return digitalRead(button.pin);
 }

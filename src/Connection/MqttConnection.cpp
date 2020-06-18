@@ -1,6 +1,7 @@
 #include <Connection/MqttConnection.h>
 #include <Secrets.h>
 #include <Settings.h>
+#include <Debugger.h>
 
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
@@ -14,6 +15,8 @@ bool MqttConnection::connect() {
     int timeout = MQTT_CONNECT_TIMEOUT_MS;
     while (!client.connected()) {
         if (!client.connect(MQTT_CLIENT_ID)) {
+            Debugger::info("MQTT Connection error: " + client.getWriteError());
+            Debugger::info("MQTT Connection status: " + client.state());
             // TODO Handle if connection to mqtt not possible
             delay(500);       
         
@@ -30,5 +33,6 @@ bool MqttConnection::connect() {
 
 void MqttConnection::publish(String topic, String payload)
 {
+    Debugger::info("Publish payload '" + payload + "' to topic '" + topic + "'");
     client.publish(topic.c_str(), payload.c_str());
 }

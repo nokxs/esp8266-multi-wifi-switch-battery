@@ -9,7 +9,8 @@ class Button
     {}
     uint8_t pin;
     String id;
-    int value = 0;
+    bool shortPress = 0;
+    bool longPress = 0;
 };
 
 #endif
