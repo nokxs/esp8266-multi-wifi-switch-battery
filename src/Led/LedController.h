@@ -1,4 +1,6 @@
-#include <Homie.h>
+#include <map>
+#include <string>
+#include <Arduino.h>
 
 #ifndef LedController_h
 #define LedController_h

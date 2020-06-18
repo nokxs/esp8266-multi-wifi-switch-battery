@@ -1,7 +1,6 @@
 #ifndef ButtonController_h
 #define ButtonController_h
 
-#include <Homie.h>
 #include <Button/Button.h>
 
 class ButtonController
@@ -11,7 +10,7 @@ class ButtonController
     void readButtons();
     void publishValues();
   private:
-    void setupButton(HomieNode& node);
+    void setupButton();
     void handleButton(Button& button);
 };
 

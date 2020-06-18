@@ -1,5 +1,4 @@
 #include <Debugger.h>
-#include <Homie.h>
 #include <Pins.h>
 #include <Led/LedStates.h>
 #include <Led/LedController.h>
@@ -7,24 +6,6 @@
 
 LedController ledController;
 ButtonController buttonController;
-
-void onHomieEvent(const HomieEvent& event) {
-  switch(event.type) {
-    case HomieEventType::CONFIGURATION_MODE:
-      break;
-    case HomieEventType::WIFI_DISCONNECTED:
-      break;
-    case HomieEventType::MQTT_DISCONNECTED:
-      break;
-    case HomieEventType::MQTT_READY:
-        buttonController.publishValues();
-        Homie.prepareToSleep();
-      break;
-    case HomieEventType::READY_TO_SLEEP:
-      Homie.doDeepSleep();
-      break;
-  }
-}
 
 void setup()
 {
@@ -44,25 +25,15 @@ void setup()
   buttonController.readButtons();
 
   digitalWrite(PIN_LED1, HIGH);
-
-  Homie_setFirmware("home-control-center", "1.0.0");
-  Homie_setBrand("Home Control Center");
   
-  Homie.disableLedFeedback();
-
   Debugger::setup();
 
   // ledController.setup();
   buttonController.setup();
-
-  Homie.onEvent(onHomieEvent);
-
-  Homie.setup();
   Debugger::info("Setup done");
 }
 
 void loop()
 {
-  Homie.loop();
   // ledController.loop();
 }

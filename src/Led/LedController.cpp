@@ -1,10 +1,7 @@
 #include <Led/LedController.h>
 #include <Led/LedStates.h>
-#include <Homie.h>
 #include <Pins.h>
 #include <Debugger.h>
-
-typedef std::function<bool(const HomieRange &range, const String &value)> PropertyInputHandler;
 
 void LedController::setup()
 {
