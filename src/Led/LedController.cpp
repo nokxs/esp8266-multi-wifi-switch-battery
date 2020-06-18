@@ -30,6 +30,8 @@ void LedController::blinkSlow(int times)
 
 void LedController::blink(int times, int delayMs)
 {
+  off();
+
   for (int i = 0; i < times; i++)
   {
     on();
