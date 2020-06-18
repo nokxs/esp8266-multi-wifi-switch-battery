@@ -1,140 +1,40 @@
 #include <Led/LedController.h>
-#include <Led/LedStates.h>
 #include <Pins.h>
 #include <Debugger.h>
 
 void LedController::setup()
 {
-  setupLED(PIN_LED1);
+  pinMode(PIN_LED1, OUTPUT);
+  off();
 }
 
-void LedController::setupLED(uint8_t pin)
+void LedController::on()
 {
-  digitalWrite(pin, LOW);
+  digitalWrite(PIN_LED1, HIGH);
 }
 
-bool LedController::set(const String &value, uint8_t pin)
+void LedController::off()
 {
-  Debugger::info("Handler: Set pin '" + String(pin) + "' to '" + value + "'");
-
-  if (value == LED_OFF || value == LED_ON || value == LED_SHORT_PULSE || value == LED_LONG_PULSE || value == LED_TRIPPLE_PULSE)
-  {
-    digitalWrite(pin, LOW); // Ensure the pin has a defined state
-
-    ledStatesMap.erase(pin);
-    ledStatesMap.insert({pin, value});
-    loop();
-  }
-  else
-  {
-    Debugger::info(value + " is a not regognized value");
-    return false;
-  }
-
-  return true;
+  digitalWrite(PIN_LED1, LOW);
 }
 
-void LedController::loop()
+void LedController::blinkFast(int times)
 {
-  bool doShortPulse = shouldDoShortPulse();
-  bool doLongPulse = shouldDoLongPulse();
-  bool doTripplePulse = shouldDoTripplePulse();
-
-  for (auto const &ledState : ledStatesMap)
-  {
-    int8_t pin = ledState.first;
-    String value = ledState.second;
-
-    if (value == LED_OFF)
-    {
-      digitalWrite(pin, LOW);
-      ledStatesMap.erase(pin);
-    }
-    else if (value == LED_ON)
-    {
-      digitalWrite(pin, HIGH);
-      ledStatesMap.erase(pin);
-    }
-    else if (value == LED_SHORT_PULSE)
-    {
-      if (doShortPulse)
-      {
-        togglePin(pin);
-      }
-    }
-    else if (value == LED_LONG_PULSE)
-    {
-      if (doLongPulse)
-      {
-        togglePin(pin);
-      }
-    }
-    else if (value == LED_TRIPPLE_PULSE)
-    {
-      if (doTripplePulse)
-      {
-        togglePin(pin);
-      }
-    }
-  }
+  blink(times, 100);
 }
 
-void LedController::togglePin(uint8_t pin)
+void LedController::blinkSlow(int times)
 {
-  digitalWrite(pin, !digitalRead(pin));
+  blink(times, 250);
 }
 
-bool LedController::shouldDoShortPulse()
+void LedController::blink(int times, int delayMs)
 {
-  if (shortTickMs + 100 <= millis())
+  for (int i = 0; i < times; i++)
   {
-    shortTickMs = millis();
-    return true;
-  }
-
-  return false;
-}
-
-bool LedController::shouldDoLongPulse()
-{
-  if (longTickMs + 500 <= millis())
-  {
-    longTickMs = millis();
-    return true;
-  }
-
-  return false;
-}
-
-bool LedController::shouldDoTripplePulse()
-{
-  if (doShortTrippleTick)
-  {
-    if (trippleTickMs + 100 <= millis())
-    {
-      trippleTickMs = millis();
-
-      if (trippleTickCount > 6)
-      {
-        doShortTrippleTick = false;
-        trippleTickCount = 0;
-      }
-      else
-      {
-        trippleTickCount++;
-      }
-
-      return true;
-    }
-  }
-  else
-  {
-    if (trippleTickMs + 800 <= millis())
-    {
-      trippleTickMs = millis();
-      doShortTrippleTick = true;
-    }
-  }
-
-  return false;
+    on();
+    delay(delayMs);
+    off();
+    delay(delayMs);
+  }  
 }

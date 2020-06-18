@@ -18,13 +18,11 @@ void setup()
 {
   Serial.begin(115200);
 
-
   buttonController.setup();
-  buttonController.readForShortPress();
+  ledController.setup();
 
-  // TODO: Use LedController
-  pinMode(PIN_LED1, OUTPUT);
-  digitalWrite(PIN_LED1, HIGH);
+  buttonController.readForShortPress();
+  ledController.on();
 
   Debugger::info("");
   
@@ -35,6 +33,7 @@ void setup()
   else
   {
     Debugger::info("Wifi NOT connected");
+    ledController.blinkFast(10);
   }
 
   if(mqttConnection.connect())
@@ -44,6 +43,7 @@ void setup()
   else
   {
     Debugger::info("MQTT NOT connected");
+    ledController.blinkFast(5);
   }
 
   buttonController.readForLongPress();
