@@ -3,34 +3,34 @@
 #include <Led/LedStates.h>
 #include <Led/LedController.h>
 #include <Button/ButtonController.h>
+#include <Connection/WifiConnection.h>
+#include <Connection/MqttConnection.h>
+
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
 
 LedController ledController;
 ButtonController buttonController;
+WifiConnection wifiConnection;
+MqttConnection mqttConnection;
 
 void setup()
 {
   Serial.begin(115200);
   // pinMode(D9, FUNCTION_3);
-
-  digitalWrite(D0, LOW);
-
-  pinMode(PIN_BUTTON1_INPUT, INPUT);
-  pinMode(PIN_BUTTON2_INPUT, INPUT);
-  pinMode(PIN_BUTTON3_INPUT, INPUT);
-  pinMode(PIN_BUTTON4_INPUT, INPUT);
-  // pinMode(PIN_BUTTON5_INPUT, INPUT);
-
   pinMode(PIN_LED1, OUTPUT);
 
+  buttonController.setup();
   buttonController.readButtons();
 
   digitalWrite(PIN_LED1, HIGH);
   
-  Debugger::setup();
+  wifiConnection.connect();
+  mqttConnection.connect();
 
-  // ledController.setup();
-  buttonController.setup();
-  Debugger::info("Setup done");
+  buttonController.publishValues();
+
+  Debugger::info("All done. Going to sleep.");
 }
 
 void loop()

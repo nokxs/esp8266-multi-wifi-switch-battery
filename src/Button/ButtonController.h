@@ -10,7 +10,6 @@ class ButtonController
     void readButtons();
     void publishValues();
   private:
-    void setupButton();
     void handleButton(Button& button);
 };
 

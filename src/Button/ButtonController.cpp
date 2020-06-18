@@ -3,11 +3,6 @@
 #include <Button/ButtonController.h>
 #include <Button/Button.h>
 
-// Homie properties
-#define PROPERTY_PRESS "press"
-
-#define STRING_TRUE "true"
-
 // Button buttons[5] = {
 //     Button(PIN_BUTTON1_INPUT, button1),
 //     Button(PIN_BUTTON2_INPUT, button2),
@@ -25,7 +20,7 @@ void ButtonController::setup()
 {
     for (auto &&button : buttons)
     {
-        setupButton();
+        pinMode(button.pin, INPUT);
     }
 }
 
@@ -46,10 +41,6 @@ void ButtonController::publishValues()
             // TODO publish value
         }
     }
-}
-
-void ButtonController::setupButton()
-{
 }
 
 void ButtonController::handleButton(Button& button)
