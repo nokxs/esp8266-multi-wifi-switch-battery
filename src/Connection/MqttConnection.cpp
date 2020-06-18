@@ -27,3 +27,8 @@ bool MqttConnection::connect() {
 
     return true;
 }
+
+void MqttConnection::publish(String topic, String payload)
+{
+    client.publish(topic.c_str(), payload.c_str());
+}

@@ -4,10 +4,11 @@
 class Button
 {
   public:
-    Button(uint8_t pin)
-    : pin(pin)
+    Button(uint8_t pin, String id)
+    : pin(pin), id(id)
     {}
     uint8_t pin;
+    String id;
     int value = 0;
 };
 

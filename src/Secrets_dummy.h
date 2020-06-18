@@ -1,3 +1,5 @@
+// Rename this file to 'Secrets.h' and adjust the values below for your setup
+
 #define WIFI_SSID "my-ssid"
 #define WIFI_PASS "my-wifi-password"
 

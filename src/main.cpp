@@ -9,10 +9,10 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 
-LedController ledController;
-ButtonController buttonController;
 WifiConnection wifiConnection;
 MqttConnection mqttConnection;
+LedController ledController;
+ButtonController buttonController(mqttConnection);
 
 void setup()
 {
@@ -25,12 +25,15 @@ void setup()
 
   digitalWrite(PIN_LED1, HIGH);
   
-  wifiConnection.connect();
-  mqttConnection.connect();
+  wifiConnection.connect(); // TODO: Handle return value
+  mqttConnection.connect(); // TODO: Handle return value
 
   buttonController.publishValues();
 
   Debugger::info("All done. Going to sleep.");
+
+  ESP.deepSleep(0);
+  delay(100);
 }
 
 void loop()
