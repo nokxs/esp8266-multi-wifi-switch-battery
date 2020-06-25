@@ -22,7 +22,7 @@ A typical LiFePo4 18650 battery has `1500 mAh`. If we assume there are 10 button
 Every button can distinguish between two button presses:
 
 * Short press
-* Long press
+* Long press (Press as long as the LED is on, to ensure a long press is recognized)
 
 ## LED
 
@@ -31,3 +31,9 @@ The LED is on, while the ESP is active. As soon as it is off again, the data is 
 ## Wifi and MQTT configuration
 
 I don't like to share my wifi password with why there is a [`Secretes_dummy.h`](src/../Secrets_dummy.h) file. Fill in your configuration and rename this file to `Secrets.h`. The [`.gitignore`](.gitignore) will prevent checking in this file.
+
+## Circuit
+
+The circuit needs a voltage arround 3.3 volts. I use a LiFePo4 battery, because it already has the desired voltage and no voltage conversion is needed.
+
+![Circuit](image/Circuit.png)
