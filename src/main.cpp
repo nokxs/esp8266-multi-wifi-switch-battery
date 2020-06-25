@@ -32,7 +32,7 @@ void setup()
   else
   {
     Debugger::info("Wifi NOT connected");
-    ledController.blinkFast(10);
+    ledController.blinkSlow(5);
   }
 
   if(mqttConnection.connect())
@@ -42,7 +42,7 @@ void setup()
   else
   {
     Debugger::info("MQTT NOT connected");
-    ledController.blinkFast(5);
+    ledController.blinkFast(10);
   }
 
   buttonController.readForLongPress();
