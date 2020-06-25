@@ -30,7 +30,7 @@ The LED is on, while the ESP is active. As soon as it is off again, the data is 
 
 ## Wifi and MQTT configuration
 
-I don't like to share my wifi password with why there is a [`Secretes_dummy.h`](src/../Secrets_dummy.h) file. Fill in your configuration and rename this file to `Secrets.h`. The [`.gitignore`](.gitignore) will prevent checking in this file.
+I don't like to share my wifi password with why there is a [`Secretes_dummy.h`](src/Secrets_dummy.h) file. Fill in your configuration and rename this file to `Secrets.h`. The [`.gitignore`](.gitignore) will prevent checking in this file.
 
 ## Circuit
 
