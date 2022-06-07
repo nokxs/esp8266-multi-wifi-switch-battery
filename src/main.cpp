@@ -48,6 +48,8 @@ void setup()
   buttonController.readForLongPress();
   buttonController.publishValues();
 
+  mqttConnection.disconnect();
+
   Debugger::info("All done. Going to sleep.");
 
   ESP.deepSleep(0);

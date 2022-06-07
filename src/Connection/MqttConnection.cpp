@@ -31,6 +31,10 @@ bool MqttConnection::connect() {
     return true;
 }
 
+void MqttConnection::disconnect() {
+    client.disconnect();
+}
+
 void MqttConnection::publish(String topic, String payload)
 {
     Debugger::info("Publish payload '" + payload + "' to topic '" + topic + "'");

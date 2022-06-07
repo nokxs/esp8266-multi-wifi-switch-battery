@@ -7,6 +7,7 @@ class MqttConnection
 {
   public:
     bool connect();
+    void disconnect();
     void publish(String topic, String payload);
 };
 
